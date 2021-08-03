@@ -1,0 +1,29 @@
+﻿@model ProjetoEnngie.Models.UsinaVM
+
+
+@{
+    ViewBag.Title = "Usina - Cadastrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800"><i class="fas fa-fw fa-edit"></i>Usina</h1>
+<div class="card shadow" style="padding:10px;">
+
+
+    @using (Html.BeginForm("Create", "Usina", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Partial("_form", Model);
+
+    }
+</div>
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+       
+        $('#ckAtivo').prop('checked', this.checked);
+
+    </script>
+}

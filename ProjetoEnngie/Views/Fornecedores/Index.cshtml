@@ -1,0 +1,61 @@
+﻿@model IEnumerable<ProjetoEnngie.Models.FornecedorVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Novo Cadastro</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Editar</a> |
+                    <button onclick="Excluir('@item.Id')" class="btn btn-danger">Excluir</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts
+    {
+    
+    <script type="text/javascript">
+
+
+        function Excluir(Id) {
+            debugger;
+
+            if (confirm("Deseja mesmo deletar este registro?")) {
+
+                var param = { "id": Id };
+
+               var url = '@Url.Action("Delete", "Fornecedores", new { Id = "id" })';
+                window.location.href = url.replace('id', param.id);
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+}
+
