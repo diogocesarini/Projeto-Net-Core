@@ -14,5 +14,9 @@ namespace ProjetoEnngie.Business.Interfaces
         IEnumerable<Usina> Listar();
 
         Usina SelecionarPorId(Guid idUsina);
+
+        IEnumerable<Usina> ListaUsinas();
+
+        IEnumerable<Usina> ListaUsinasFiltro(Guid? idFornecedor, bool Ativo);
     }
 }

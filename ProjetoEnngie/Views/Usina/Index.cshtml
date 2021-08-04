@@ -1,42 +1,115 @@
-﻿@model IEnumerable<ProjetoEnngie.Models.UsinaVM>
+﻿@model ProjetoEnngie.Models.UsinaVM
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Pagina Inicial Usinas</h1>
+
+
+<div class="card-body">
+    <form action="~/Usina/Filtro" method="POST" id="frmUsina" class="">
+
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+
+            <div class="col-lg-5">
+                <div class="form-group">
+                    <label>Fornecedores</label>
+                    <select id="FornecedorId" name="FornecedorId" class="form-control chosen-select">
+                        <option>Todos</option>
+                        @if (Model.Fornecedores != null && Model.Fornecedores.Any())
+                        {
+                            foreach (var item in Model.Fornecedores)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div id="ckAtivo" class="form-group">
+                    <label>Ativo*</label>
+                    @Html.CheckBoxFor(model => model.Ativo, new { htmlAttributes = new { @class = "form-control", @maxlength = 50, @autocomplete = "off", @checked = "checked" } })
+                    @Html.ValidationMessageFor(model => model.Ativo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <div class="form-group">
+                    <br />
+                    <button id="btnFiltrar" type="submit" class="btn btn-primary">Filtrar</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
 
 <p>
     <a asp-action="Create">Novo Cadastro</a>
 </p>
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Fornecedor
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ativo)
+                UC Usina
             </th>
             <th>
+                Ativo
             </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ativo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Usinas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeFornecedor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.Ativo, new { @disabled = "disabled" })
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info">Editar</a> |
+                    <a asp-action="Delete" onclick="Excluir('@item.Id')" class="btn btn-danger">Deletar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section scripts
+    {
+
+    <script type="text/javascript">
+
+
+        function Excluir(Id) {
+            if (confirm("Deseja mesmo deletar este registro?")) {
+                var url = "/Usina/Delete/" + Id;
+                $.ajax({
+                    url: url,
+                    type: 'Delete',
+                }).done(function () {
+                    alert("Deletado!")
+                });
+            }
+            else {
+                alert("Cancelado!")
+            }
+        }
+
+    </script>
+}

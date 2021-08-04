@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Página Inicial Fornecedores</h1>
 
 <p>
     <a asp-action="Create">Novo Cadastro</a>
@@ -41,18 +41,18 @@
     <script type="text/javascript">
 
 
-        function Excluir(Id) {
-            debugger;
-
+         function Excluir(Id) {
             if (confirm("Deseja mesmo deletar este registro?")) {
-
-                var param = { "id": Id };
-
-               var url = '@Url.Action("Delete", "Fornecedores", new { Id = "id" })';
-                window.location.href = url.replace('id', param.id);
+                var url = "/Usina/Delete/" + Id;
+                $.ajax({
+                    url: url,
+                    type: 'Delete',
+                }).done(function () {
+                    alert("Deletado!")
+                });
             }
             else {
-                return false;
+                alert("Cancelado!")
             }
         }
 

@@ -1,20 +1,19 @@
-﻿@model ProjetoEnngie.Models.FornecedorVM
+﻿@model ProjetoEnngie.Models.UsinaVM
 
 
 @{
-    ViewBag.Title = "Fornecedor - Cadastrar";
+    ViewBag.Title = "Usina - Editar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="h3 mb-2 text-gray-800"><i class="fas fa-fw fa-edit"></i>Fornecedor</h1>
+<h1 class="h3 mb-2 text-gray-800"><i class="fas fa-fw fa-edit"></i>Usina</h1>
 <div class="card shadow" style="padding:10px;">
 
 
-    @using (Html.BeginForm("Create", "Fornecedores", FormMethod.Post@*, new { @cl}*@))
+    @using (Html.BeginForm("Edit", "Usina", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.Partial("_form", Model);
-       
     }
 </div>
 
@@ -24,7 +23,7 @@
     <script type="text/javascript">
         function fnProcessar(response) {
             if (response.Sucesso) {
-                fnSucessoRedirect('/Fornecedores/Index', response.Valor);
+                fnSucessoRedirect('/Usina/Index', response.Valor);
             } else {
                 fnErro(response.Erro);
             }

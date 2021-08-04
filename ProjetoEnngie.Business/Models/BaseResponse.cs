@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProjetoEnngie.Business.Models
+﻿namespace ProjetoEnngie.Business.Models
 {
     public class BaseResponse
     {

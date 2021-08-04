@@ -59,7 +59,7 @@ namespace ProjetoEnngie.Controllers
                 resp.Erro = ex.Message;
             }
 
-            return Json(resp);
+            return RedirectToAction("Index", "Fornecedores");
 
         }
 
@@ -96,7 +96,7 @@ namespace ProjetoEnngie.Controllers
                 resp.Erro = ex.Message;
             }
 
-            return Json(resp);
+            return RedirectToAction("Edit", "Fornecedores");
 
         }
 
@@ -112,7 +112,7 @@ namespace ProjetoEnngie.Controllers
                 resp.Sucesso = false;
                 resp.Erro = ex.Message;
             }
-            return Json(resp);
+            return RedirectToAction("Index", "Fornecedores");
         }
 
     }

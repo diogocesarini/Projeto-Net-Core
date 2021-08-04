@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjetoEnngie.Business.Interfaces;
 using ProjetoEnngie.Business.Models;
 using ProjetoEnngie.Models;
@@ -22,11 +23,14 @@ namespace ProjetoEnngie.Controllers
             _mapper = mapper;
             _fornecedorService = fornecedorService;
         }
+
         public IActionResult Index()
         {
-            var lista = _UsinaService.Listar();
-
+            var lista = _UsinaService.ListaUsinas().ToList();
+            var vm = new UsinaVM();
             var novaLista = new List<UsinaVM>();
+
+            vm.Fornecedores = MontarComboFornecedores();
 
             foreach (var x in lista)
             {
@@ -34,22 +38,88 @@ namespace ProjetoEnngie.Controllers
                 {
                     Id = x.Id,
                     Nome = x.Nome,
+                    NomeFornecedor = x.Fornecedor.Nome,
                     Ativo = x.Ativo
                 });
             }
+            vm.Usinas = novaLista;
 
-            return View(novaLista);
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Filtro(UsinaVM vm)
+        {
+            vm.Usinas = MontarListaUsinas(vm);
+            vm.Fornecedores = MontarComboFornecedores();
+
+            return View("Index", vm);
         }
 
         public ActionResult Create()
         {
             var vm = new UsinaVM();
 
-            var Lista = _fornecedorService.Listar();
-
-            vm.Fornecedores = _mapper.Map<List<FornecedorVM>>(Lista);
+            vm.Fornecedores = MontarComboFornecedores();
 
             return View(vm);
+        }
+
+        protected IEnumerable<SelectListItem> MontarComboFornecedores()
+        {
+            return _fornecedorService.Listar().Select(x => new SelectListItem
+            {
+                Text = x.Nome,
+                Value = x.Id.ToString()
+            });
+        }
+
+        protected IEnumerable<SelectListItem> MontarComboUsinas()
+        {
+            return _UsinaService.Listar().Select(x => new SelectListItem
+            {
+                Text = x.Nome,
+                Value = x.Id.ToString()
+            });
+        }
+
+        protected List<UsinaVM> MontarListaUsinas(UsinaVM vM)
+        {
+            var novaLista = new List<UsinaVM>();
+            if (vM.FornecedorId != null && vM.Ativo || !vM.Ativo)
+            {
+                var lista = _UsinaService.ListaUsinasFiltro(vM.FornecedorId, vM.Ativo).ToList();
+
+                foreach (var x in lista)
+                {
+                    novaLista.Add(new UsinaVM()
+                    {
+                        Id = x.Id,
+                        Nome = x.Nome,
+                        NomeFornecedor = x.Fornecedor.Nome,
+                        Ativo = x.Ativo
+                    });
+                }
+
+            }
+            
+            else
+            {
+                var lista = _UsinaService.ListaUsinas().ToList();
+                foreach (var x in lista)
+                {
+                    novaLista.Add(new UsinaVM()
+                    {
+                        Id = x.Id,
+                        Nome = x.Nome,
+                        NomeFornecedor = x.Fornecedor.Nome,
+                        Ativo = x.Ativo
+                    });
+                }
+
+            }
+            return novaLista;
         }
 
         [HttpPost]
@@ -67,18 +137,17 @@ namespace ProjetoEnngie.Controllers
                 resp.Erro = ex.Message;
             }
 
-            return Json(resp);
+            return RedirectToAction("Index", "Usina");
 
         }
-
 
         public ActionResult Edit(Guid id)
         {
             var Usina = _UsinaService.SelecionarPorId(id);
 
-            var vm = new UsinaVM();
+            var vm = _mapper.Map<UsinaVM>(Usina);
 
-            vm = _mapper.Map<UsinaVM>(Usina);
+            vm.Fornecedores = MontarComboFornecedores();
 
             return View(vm);
         }
@@ -104,7 +173,7 @@ namespace ProjetoEnngie.Controllers
                 resp.Erro = ex.Message;
             }
 
-            return Json(resp);
+            return RedirectToAction("Index", "Usina");
 
         }
 
@@ -120,7 +189,7 @@ namespace ProjetoEnngie.Controllers
                 resp.Sucesso = false;
                 resp.Erro = ex.Message;
             }
-            return Json(resp);
+            return RedirectToAction("Index", "Usina");
         }
 
     }

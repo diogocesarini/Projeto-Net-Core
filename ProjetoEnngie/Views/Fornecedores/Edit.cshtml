@@ -21,12 +21,13 @@
 @section scripts
     {
     <script type="text/javascript">
-        function fnProcessar(response) {
-            if (response.Sucesso) {
-                fnSucessoRedirect('/Fornecedores/Index', response.Valor);
-            } else {
-                fnErro(response.Erro);
-            }
-    }
+        {
+            $(function () {
+                debugger;
+                $('#addGroupForm').submit(function (e) {
+                     window.location.href="@Url.Action("Index", "Fornecedores")";
+                });
+            });
+        }
     </script>
 }
