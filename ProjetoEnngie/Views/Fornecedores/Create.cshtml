@@ -10,7 +10,7 @@
 <div class="card shadow" style="padding:10px;">
 
 
-    @using (Html.BeginForm("Create", "Fornecedores", FormMethod.Post@*, new { @cl}*@))
+    @using (Html.BeginForm("Create", "Fornecedores", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.Partial("_form", Model);
@@ -22,12 +22,7 @@
 @section scripts
     {
     <script type="text/javascript">
-        function fnProcessar(response) {
-            if (response.Sucesso) {
-                fnSucessoRedirect('/Fornecedores/Index', response.Valor);
-            } else {
-                fnErro(response.Erro);
-            }
+        
     }
     </script>
 }

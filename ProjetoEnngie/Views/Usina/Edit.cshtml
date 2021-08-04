@@ -16,17 +16,3 @@
         @Html.Partial("_form", Model);
     }
 </div>
-
-
-@section scripts
-    {
-    <script type="text/javascript">
-        function fnProcessar(response) {
-            if (response.Sucesso) {
-                fnSucessoRedirect('/Usina/Index', response.Valor);
-            } else {
-                fnErro(response.Erro);
-            }
-    }
-    </script>
-}

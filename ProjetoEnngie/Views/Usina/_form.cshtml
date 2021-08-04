@@ -7,14 +7,14 @@
         <div class="form-group">
             <label>Nome Usina*</label>
             @Html.HiddenFor(model => model.Id)
-            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @maxlength = 50, @autocomplete = "off" } })
+            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @maxlength = 50, @autocomplete = "off" , @name = "nomeUsina"} })
             @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group">
             <label>Fornecedor</label>
-            @Html.DropDownListFor(model => model.FornecedorId, Model.Fornecedores, "Selecione", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.FornecedorId, Model.Fornecedores, "Selecione", new { @class = "form-control", @name = "fornecedorId" })
             @Html.ValidationMessageFor(model => model.FornecedorId, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -33,3 +33,20 @@
         <button type="submit" class="btn btn-success">Salvar</button>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#formH2H").validate({
+            rules: {
+                FornecedorId: { cpf: true, required: true }
+            },
+            messages: {
+                FornecedorId: { FornecedorId: 'Selecione o Fornecedor' }
+            }
+            , submitHandler: function (form) {
+               
+            }
+        });
+    });
+</script>

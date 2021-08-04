@@ -10,20 +10,10 @@
 <div class="card shadow" style="padding:10px;">
 
 
-    @using (Html.BeginForm("Create", "Usina", FormMethod.Post))
+    @using (Html.BeginForm("Create", "Usina", FormMethod.Post, new { Id = "formUsina" }))
     {
         @Html.AntiForgeryToken()
         @Html.Partial("_form", Model);
 
     }
 </div>
-
-
-@section scripts
-    {
-    <script type="text/javascript">
-       
-        $('#ckAtivo').prop('checked', this.checked);
-
-    </script>
-}

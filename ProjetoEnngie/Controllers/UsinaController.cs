@@ -104,7 +104,7 @@ namespace ProjetoEnngie.Controllers
 
             }
             
-            else
+            if(novaLista.Count == 0)
             {
                 var lista = _UsinaService.ListaUsinas().ToList();
                 foreach (var x in lista)
